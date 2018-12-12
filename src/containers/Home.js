@@ -11,7 +11,7 @@ export default class Home extends Component {
 
     this.state = {
       isLoading: true,
-      notes: []
+      events: []
     };
   }
 
@@ -21,8 +21,8 @@ export default class Home extends Component {
     }
 
     try {
-      const notes = await this.notes();
-      this.setState({ notes });
+      const events = await this.events();
+      this.setState({ events });
     } catch (e) {
       alert(e);
     }
@@ -30,17 +30,17 @@ export default class Home extends Component {
     this.setState({ isLoading: false });
   }
 
-  notes() {
-    return API.get("notes", "/notes");
+  events() {
+    return API.get("events", "/events");
   }
 
-  renderNotesList(notes) {
-    return [{}].concat(notes).map(
+  renderEventsList(events) {
+    return [{}].concat(events).map(
       (note, i) =>
         i !== 0
           ? <LinkContainer
-              key={note.noteId}
-              to={`/notes/${note.noteId}`}
+              key={note.eventId}
+              to={`/events/${note.eventId}`}
             >
               <ListGroupItem header={note.content.trim().split("\n")[0]}>
                 {"Created: " + new Date(note.createdAt).toLocaleString()}
@@ -48,7 +48,7 @@ export default class Home extends Component {
             </LinkContainer>
           : <LinkContainer
               key="new"
-              to="/notes/new"
+              to="/events/new"
             >
               <ListGroupItem>
                 <h4>
@@ -76,12 +76,12 @@ export default class Home extends Component {
     );
   }
 
-  renderNotes() {
+  renderEvents() {
     return (
-      <div className="notes">
-        <PageHeader>Your Notes</PageHeader>
+      <div className="events">
+        <PageHeader>Your Events</PageHeader>
         <ListGroup>
-          {!this.state.isLoading && this.renderNotesList(this.state.notes)}
+          {!this.state.isLoading && this.renderEventsList(this.state.events)}
         </ListGroup>
       </div>
     );
@@ -90,7 +90,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="Home">
-        {this.props.isAuthenticated ? this.renderNotes() : this.renderLander()}
+        {this.props.isAuthenticated ? this.renderEvents() : this.renderLander()}
       </div>
     );
   }
