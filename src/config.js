@@ -1,7 +1,7 @@
 const dev = {
   s3: {
     REGION: "us-east-1",
-    BUCKET: "events-app-uploads"
+    BUCKET: "events-app-api-dev-attachmentsbucket-1n3xf1x7ykcjq"
   },
   apiGateway: {
     REGION: "us-east-1",
@@ -18,17 +18,17 @@ const dev = {
 const prod = {
   s3: {
     REGION: "us-east-1",
-    BUCKET: "events-app-uploads-prod"
+    BUCKET: "events-app-uploads"
   },
   apiGateway: {
     REGION: "us-east-1",
-    URL: "https://vy5ko5j9yd.execute-api.us-east-1.amazonaws.com/dev"
+    URL: "https://e6mkuvw4v0.execute-api.us-east-1.amazonaws.com/prod"
   },
   cognito: {
     REGION: "us-east-1",
-    USER_POOL_ID: "us-east-1_21E1fcm1I",
-    APP_CLIENT_ID: "7qhbd9v3efafsp70ntnvmof5ia",
-    IDENTITY_POOL_ID: "us-east-1:64c573e8-6026-4fac-8d03-1593c7712278"
+    USER_POOL_ID: "us-east-1_PoQDMAnY2",
+    APP_CLIENT_ID: "1k2gmnn4ko83h3th3hk5nmu7sc",
+    IDENTITY_POOL_ID: "us-east-1:ca91f352-f6ab-4dc1-be61-61761f3f20b7"
   }
 };
 

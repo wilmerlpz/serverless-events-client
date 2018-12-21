@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { API } from "aws-amplify";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
+import MapLocation from "../components/MapLocation";
 import { s3Upload } from "../libs/awsLib";
 import config from "../config";
 import "./NewNote.css";
@@ -14,18 +15,24 @@ export default class NewNote extends Component {
 
     this.state = {
       isLoading: null,
-      content: ""
+      name: "",
+      description: "",
+      city:"",
+      state:"",
+      country:"",
+      status: ""
     };
   }
 
   createNote(note) {
-    return API.post("notes", "/notes", {
+    return API.post("events", "/events", {
       body: note
     });
   }
 
   validateForm() {
-    return this.state.content.length > 0;
+    return this.state.description.length > 0 && this.state.name.length > 0 && this.state.city.length > 0;
+
   }
 
   handleChange = event => {
@@ -55,7 +62,12 @@ export default class NewNote extends Component {
 
       await this.createNote({
         attachment,
-        content: this.state.content
+        name: this.state.name,
+        description: this.state.description,
+        city: this.state.city,
+        state: this.state.state,
+        country: this.state.country,
+        status: this.state.status
       });
       this.props.history.push("/");
     } catch (e) {
@@ -68,13 +80,69 @@ export default class NewNote extends Component {
     return (
       <div className="NewNote">
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="content">
+        <FormGroup controlId="name">
+          <FormControl
+            type="text"
+            value={this.state.name}
+            placeholder="Enter event name"
+            onChange={this.handleChange}
+          />
+          <FormControl.Feedback />
+          </FormGroup>
+          <FormGroup controlId="description">
             <FormControl
               onChange={this.handleChange}
-              value={this.state.content}
+              value={this.state.description}
               componentClass="textarea"
             />
           </FormGroup>
+          
+          <FormGroup controlId="city">
+          <FormControl
+            type="text"
+            value={this.state.city}
+            placeholder="Enter City"
+            onChange={this.handleChange}
+          />
+          <FormControl.Feedback />
+          </FormGroup>
+
+          <FormGroup controlId="state">
+          <FormControl
+            type="text"
+            value={this.state.state}
+            placeholder="Enter state"
+            onChange={this.handleChange}
+          />
+          <FormControl.Feedback />
+          </FormGroup>
+
+          <FormGroup controlId="country">
+          <FormControl
+            type="text"
+            value={this.state.country}
+            placeholder="Enter country"
+            onChange={this.handleChange}
+          />
+          <FormControl.Feedback />
+          </FormGroup>
+
+          <FormGroup controlId="status">
+          <FormControl
+            type="text"
+            value={this.state.status}
+            placeholder="Enter status"
+            onChange={this.handleChange}
+          />
+          <FormControl.Feedback />
+          </FormGroup>
+
+          <FormGroup controlId="status">
+          <MapLocation {...this.props}/>
+          </FormGroup>
+
+          <MapLocation {...this.props}/>
+
           <FormGroup controlId="file">
             <ControlLabel>Attachment</ControlLabel>
             <FormControl onChange={this.handleFileChange} type="file" />
@@ -90,7 +158,9 @@ export default class NewNote extends Component {
             loadingText="Creating…"
           />
         </form>
+          
       </div>
     );
   }
+
 }

@@ -16,7 +16,8 @@ export default class Notes extends Component {
       isLoading: null,
       isDeleting: null,
       note: null,
-      content: "",
+      name: "",
+      description: "",
       attachmentURL: null
     };
   }
@@ -25,15 +26,19 @@ export default class Notes extends Component {
     try {
       let attachmentURL;
       const note = await this.getNote();
-      const { content, attachment } = note;
+      const { name, mainImage, description } = note;
 
-      if (attachment) {
-        attachmentURL = await Storage.vault.get(attachment);
+      console.log("main photo:", mainImage);
+      if (mainImage) {
+
+        attachmentURL = await Storage.vault.get(mainImage);
+        console.log("attachmentURL:", attachmentURL);
       }
 
       this.setState({
         note,
-        content,
+        name,
+        description,
         attachmentURL
       });
     } catch (e) {
@@ -42,21 +47,21 @@ export default class Notes extends Component {
   }
 
   getNote() {
-    return API.get("notes", `/notes/${this.props.match.params.id}`);
+    return API.get("events", `/events/${this.props.match.params.id}`);
   }
 
   saveNote(note) {
-    return API.put("notes", `/notes/${this.props.match.params.id}`, {
+    return API.put("events", `/events/${this.props.match.params.id}`, {
       body: note
     });
   }
 
   deleteNote() {
-    return API.del("notes", `/notes/${this.props.match.params.id}`);
+    return API.del("events", `/events/${this.props.match.params.id}`);
   }
 
   validateForm() {
-    return this.state.content.length > 0;
+    return this.state.name.length > 0;
   }
 
   formatFilename(str) {
@@ -91,7 +96,7 @@ export default class Notes extends Component {
       }
 
       await this.saveNote({
-        content: this.state.content,
+        name: this.state.name,
         attachment: attachment || this.state.note.attachment
       });
       this.props.history.push("/");
@@ -128,14 +133,23 @@ export default class Notes extends Component {
       <div className="Notes">
         {this.state.note &&
           <form onSubmit={this.handleSubmit}>
-            <FormGroup controlId="content">
-              <FormControl
-                onChange={this.handleChange}
-                value={this.state.content}
-                componentClass="textarea"
-              />
-            </FormGroup>
-            {this.state.note.attachment &&
+          <FormGroup controlId="name">
+          <FormControl
+            type="text"
+            value={this.state.name}
+            placeholder="Enter event name"
+            onChange={this.handleChange}
+          />
+          <FormControl.Feedback />
+          </FormGroup>
+          <FormGroup controlId="description">
+            <FormControl
+              onChange={this.handleChange}
+              value={this.state.description}
+              componentClass="textarea"
+            />
+          </FormGroup>
+          {this.state.note.mainImage &&
               <FormGroup>
                 <ControlLabel>Attachment</ControlLabel>
                 <FormControl.Static>
@@ -144,12 +158,12 @@ export default class Notes extends Component {
                     rel="noopener noreferrer"
                     href={this.state.attachmentURL}
                   >
-                    {this.formatFilename(this.state.note.attachment)}
+                    {this.formatFilename(this.state.note.mainImage)}
                   </a>
                 </FormControl.Static>
               </FormGroup>}
             <FormGroup controlId="file">
-              {!this.state.note.attachment &&
+              {!this.state.note.mainImage &&
                 <ControlLabel>Attachment</ControlLabel>}
               <FormControl onChange={this.handleFileChange} type="file" />
             </FormGroup>
