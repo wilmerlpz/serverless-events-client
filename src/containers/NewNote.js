@@ -141,8 +141,6 @@ export default class NewNote extends Component {
           <MapLocation {...this.props}/>
           </FormGroup>
 
-          <MapLocation {...this.props}/>
-
           <FormGroup controlId="file">
             <ControlLabel>Attachment</ControlLabel>
             <FormControl onChange={this.handleFileChange} type="file" />

@@ -1,4 +1,9 @@
+.leaflet-container {
+  height: 400px;
+  width: 70% !important;
+}
+
 .leaflet-container .leaflet-pane {
     height: 400px;
-    width: 350px;
+    width: 70% !important;;
   }
