@@ -3,6 +3,7 @@ import { API } from "aws-amplify";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import MapLocation from "../components/MapLocation";
+import DatePickerComponent from "../components/DatePickerComponent";
 import { s3Upload } from "../libs/awsLib";
 import config from "../config";
 import "./NewNote.css";
@@ -97,6 +98,10 @@ export default class NewNote extends Component {
             />
           </FormGroup>
           
+          <FormGroup controlId="endDate">
+          <DatePickerComponent {...this.props} />
+          </FormGroup>
+
           <FormGroup controlId="city">
           <FormControl
             type="text"
@@ -106,6 +111,8 @@ export default class NewNote extends Component {
           />
           <FormControl.Feedback />
           </FormGroup>
+
+
 
           <FormGroup controlId="state">
           <FormControl
@@ -136,6 +143,8 @@ export default class NewNote extends Component {
           />
           <FormControl.Feedback />
           </FormGroup>
+
+
 
           <FormGroup controlId="status">
           <MapLocation {...this.props}/>
