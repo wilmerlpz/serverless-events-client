@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { API } from "aws-amplify";
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { FormGroup, FormControl, ControlLabel, da } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import MapLocation from "../components/MapLocation";
 import DatePickerComponent from "../components/DatePickerComponent";
@@ -20,6 +20,8 @@ export default class NewNote extends Component {
       description: "",
       city:"",
       state:"",
+      startDate:"",
+      endDate:"",
       country:"",
       status: ""
     };
@@ -40,6 +42,8 @@ export default class NewNote extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
+
+    console.log(this.state);
   }
 
   handleFileChange = event => {
@@ -97,9 +101,15 @@ export default class NewNote extends Component {
               componentClass="textarea"
             />
           </FormGroup>
+
+          <FormGroup controlId="startDate">
+          <DatePickerComponent onChange={this.handleChange}/>
+          <FormControl.Feedback />
+          </FormGroup>
           
           <FormGroup controlId="endDate">
-          <DatePickerComponent {...this.props} />
+          <DatePickerComponent  onChange={this.handleChange}/>
+          <FormControl.Feedback />
           </FormGroup>
 
           <FormGroup controlId="city">

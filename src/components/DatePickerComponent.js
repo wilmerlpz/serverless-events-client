@@ -23,7 +23,7 @@ class DatePickerComponent extends React.Component {
  
   render() {
     return (
-      <DatePicker
+      <DatePicker className="form-control"
         selected={this.state.startDate}
         onChange={this.handleChange}
       />
